@@ -5,7 +5,7 @@ var app = angular.module("FashionAds", ["ngRoute"]).config([
     $locationProvider.hashPrefix("");
     $routeProvider
       .when("/", {
-        templateUrl: "pages/home.html",
+        templateUrl: "pages/home/home.html",
       })
       .when("/login", {
         templateUrl: "pages/login/login.html",
