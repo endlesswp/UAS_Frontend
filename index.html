@@ -9,9 +9,23 @@
   </head>
   <body>
     <script src="app.js"></script>
+    <nav class="m-2 p-2 flex justify-between items-center ">
+      <div>
+        <h2>FancyNews</h2>
+      </div>
+      <div>
+        <a href="#/home">Home</a>
+        <a href="#/about">Entertainment</a>
+        <a href="#/about">Health</a>
+        <a href="#/about">Sports</a>
+        <a href="#/about">Science</a>
+        <a href="#/about">Technology</a>
+      </div>
+    </nav>
     <div class="">
       <div ng-view></div>
       <!--page render-->
     </div>
+    <script src="controller/home.js"></script>
   </body>
 </html>
