@@ -6,6 +6,7 @@ var app = angular.module("FancyNews", ["ngRoute"]).config([
     $routeProvider
       .when("/", {
         templateUrl: "pages/home/home.html",
+        controller: "HomeController",
       })
       .when("/login", {
         templateUrl: "pages/login/login.html",

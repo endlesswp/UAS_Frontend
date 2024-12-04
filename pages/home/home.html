@@ -1,13 +1,18 @@
-<!--TODO make it so that this card is being generated with ng-repeat
-generating top 5 news card, the card then can be clicked that leads the user to 
-a more detaile dpage with a hash page-->
-<a href="leads to the detailed page of the hash page">
-  <div class="">
-    <img src="news image"/>
-    <div>
-      <h1>News Title</h1>
-      <p>News Description</p> 
-      <span>Time and date</span>
-    </div>
+<div ng-controller="HomeController">
+  <div ng-repeat="article in news">
+    <a href="{{article.url}}" target="_blank">
+      <div class="card">
+        <img
+          src="{{article.urlToImage}}"
+          alt="News Image"
+          class="card-img-top"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{article.title}}</h5>
+          <p class="card-text">{{article.description}}</p>
+          <span>{{article.publishedAt | date:'medium'}}</span>
+        </div>
+      </div>
+    </a>
   </div>
-</a>
+</div>
