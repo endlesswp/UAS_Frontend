@@ -12,17 +12,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      angular
+        .module('FancyNews', [])
+        .controller('SearchController', function ($scope) {
+          $scope.searchQuery = '';
+          $scope.isSearching = false;
+          $scope.noResults = false;
+
+          $scope.performSearch = function () {
+            if ($scope.searchQuery.trim() === '') {
+              $scope.isSearching = false;
+              $scope.noResults = false;
+              return;
+            }
+
+            $scope.isSearching = true;
+            setTimeout(() => {
+              $scope.isSearching = false;
+              $scope.noResults = true;
+              $scope.$apply(); 
+            }, 1000); 
+          };
+        });
+    </script>
   </head>
-  <body>
-    <script src="app.js"></script>
-    <script src="services/AppService.js"></script>
-    <script src="controller/home.js"></script>
+  <body ng-controller="SearchController">
     <div class="flex justify-center border-1 pb-1">
       <h2 class="font-bold text-2xl">FancyNews</h2>
     </div>
     <div class="mb-[-10px] pt-1">
-      <form class="flex justify-center" action="/search" method="GET">
-        <input class="" type="text" name="query" placeholder="Search..." />
+      <form class="flex justify-center" ng-submit="performSearch()">
+        <input
+          class=""
+          type="text"
+          ng-model="searchQuery"
+          placeholder="Search..."
+        />
         <button type="submit">Search</button>
       </form>
     </div>
@@ -34,9 +60,15 @@
       <a href="#/science">Science</a>
       <a href="#/technology">Technology</a>
     </div>
+    <div class="text-center mt-4">
+      <p ng-if="isSearching">Searching...</p>
+
+      <p ng-if="!isSearching && noResults && searchQuery">
+        No results found for "<strong>{{ searchQuery }}</strong>"
+      </p>
+    </div>
     <div class="flex max-w[1200px] mt-4 ml-4 mr-4">
       <div ng-view></div>
-      <!--page render-->
     </div>
   </body>
 </html>
