@@ -9,6 +9,15 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "../")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../index.html"));
+});
+
+
 const API_KEY = process.env.NEWS_API_KEY || "7bac1df556254ed78b5547177b2bdeef";
 const BASE_URL = "https://newsapi.org/v2";
 
