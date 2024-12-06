@@ -1,24 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="/css/home.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Articles</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fdfcf8;
+      margin: 0;
+      padding: 0;
+    }
 
-<div ng-controller="HomeController">
-  <div class="articles-container">
-    <div ng-repeat="article in news" class="article-card">
-      <a href="{{article.url}}" target="_blank" class="article-link">
-        <div class="card">
-          <img
-            src="{{article.urlToImage}}"
-            alt="News Image"
-            class="card-img-top"
-          />
-          <div class="card-body">
-            <h5 class="card-title">{{article.title}}</h5>
-            <p class="card-text">{{article.description}}</p>
-            <span class="publish-date">{{article.publishedAt | date:'medium'}}</span>
-          </div>
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #6d2932;
+      color: #e8d8c4;
+      border-radius: 10px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .articles-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .article-card {
+      max-width: 600px;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .article-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+      background-color: #e8d8c4;
+      border: 1px solid #c7b7a3;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .card-img-top {
+      height: 300px;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .card-body {
+      padding: 25px;
+      color: #561c24;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #6d2932;
+      margin-bottom: 15px;
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #561c24;
+      margin-bottom: 15px;
+    }
+
+    .publish-date {
+      display: block;
+      font-size: 14px;
+      color: #6d2932;
+      text-align: right;
+    }
+
+    .article-link {
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+
+    .article-link:hover .card-title {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .articles-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .article-card {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Content -->
+  <div class="main-container">
+    <header class="header">
+      <h1>Latest News</h1>
+    </header>
+
+    <div class="content" ng-controller="HomeController">
+      <div class="articles-container">
+        <div ng-repeat="article in news" class="article-card">
+          <a href="{{article.url}}" target="_blank" class="article-link">
+            <div class="card">
+              <img
+                src="{{article.urlToImage}}"
+                alt="News Image"
+                class="card-img-top"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{article.title}}</h5>
+                <p class="card-text">{{article.description}}</p>
+                <span class="publish-date">{{article.publishedAt | date:'medium'}}</span>
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- AngularJS Script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

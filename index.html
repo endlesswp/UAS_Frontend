@@ -1,6 +1,9 @@
-<html ng-app="FancyNews">
+<!DOCTYPE html>
+<html lang="en" ng-app="FancyNews">
   <head>
-    <title>FashionAds</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FancyNews</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -9,34 +12,171 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet"
     />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fdfcf8;
+        margin: 0;
+        padding: 0;
+      }
+
+      .header {
+        background-color: #6d2932;
+        color: #e8d8c4;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 3px solid #561c24;
+      }
+
+      .header h2 {
+        font-size: 36px;
+        margin: 0;
+      }
+
+      .search-bar {
+        margin: 20px auto;
+        max-width: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .search-bar input {
+        flex: 1;
+        padding: 10px 15px;
+        border: 1px solid #c7b7a3;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+      }
+
+      .search-bar button {
+        background-color: #561c24;
+        color: #e8d8c4;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .search-bar button:hover {
+        background-color: #6d2932;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: center;
+        background-color: #c7b7a3;
+        padding: 10px;
+        gap: 20px;
+        border-bottom: 3px solid #561c24;
+      }
+
+      .navbar a {
+        text-decoration: none;
+        color: #561c24;
+        font-weight: bold;
+        font-size: 16px;
+        transition: color 0.3s ease;
+      }
+
+      .navbar a:hover {
+        color: #6d2932;
+      }
+
+      .content {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #e8d8c4;
+        border: 1px solid #c7b7a3;
+        border-radius: 10px;
+      }
+
+      .status-message {
+        font-size: 18px;
+        color: #6d2932;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header h2 {
+          font-size: 28px;
+        }
+
+        .navbar {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .navbar a {
+          font-size: 14px;
+        }
+      }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      angular
+        .module('FancyNews', [])
+        .controller('SearchController', function ($scope) {
+          $scope.searchQuery = '';
+          $scope.isSearching = false;
+          $scope.noResults = false;
+
+          $scope.performSearch = function () {
+            if ($scope.searchQuery.trim() === '') {
+              $scope.isSearching = false;
+              $scope.noResults = false;
+              return;
+            }
+
+            $scope.isSearching = true;
+            setTimeout(() => {
+              $scope.isSearching = false;
+              $scope.noResults = true;
+              $scope.$apply();
+            }, 1000);
+          };
+        });
+    </script>
   </head>
-  <body>
-    <script src="app.js"></script>
-    <script src="services/AppService.js"></script>
-    <script src="controller/home.js"></script>
-    <div class="flex justify-center border-1 pb-1">
-      <h2 class="font-bold text-2xl">FancyNews</h2>
-    </div>
-    <div class="mb-[-10px] pt-1">
-      <form class="flex justify-center" action="/search" method="GET">
-        <input class="" type="text" name="query" placeholder="Search..." />
+  <body ng-controller="SearchController">
+    
+    <header class="header">
+      <h2>FancyNews</h2>
+    </header>
+
+    <div class="search-bar">
+      <form class="d-flex" ng-submit="performSearch()">
+        <input
+          type="text"
+          ng-model="searchQuery"
+          placeholder="Search..."
+        />
         <button type="submit">Search</button>
       </form>
     </div>
-    <div class="flex justify-center items-center gap-10 border-1 p-1">
-      <a href="/home">Home</a>
+
+    <nav class="navbar">
+      <a href="#/home">Home</a>
       <a href="#/entertainment">Entertainment</a>
       <a href="#/health">Health</a>
       <a href="#/sports">Sports</a>
       <a href="#/science">Science</a>
       <a href="#/technology">Technology</a>
+    </nav>
+
+    <div class="text-center status-message">
+      <p ng-if="isSearching">Searching...</p>
+      <p ng-if="!isSearching && noResults && searchQuery">
+        No results found for "<strong>{{ searchQuery }}</strong>"
+      </p>
     </div>
-    <div class="flex max-w[1200px] mt-4 ml-4 mr-4">
+
+    <div class="content">
       <div ng-view></div>
-      <!--page render-->
     </div>
   </body>
 </html>
