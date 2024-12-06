@@ -9,8 +9,8 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = process.env.NEWS_API_KEY || "0819647073f2418182dda6578db8c60b";
-const BASE_URL = "https://newsapi.org/v2";
+const API_KEY = process.env.NEWS_API_KEY || "dd1de90470634d14b4c7ac70aaf5d394";
+const BASE_URL = "https://newsapi.org/v2/everything?q=Apple&from=2024-12-06&sortB";
 
 const path = require("path");
 app.use(express.static(path.join(__dirname, "../")));
