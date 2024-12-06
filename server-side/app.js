@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = process.env.NEWS_API_KEY || "0819647073f2418182dda6578db8c60b";
+const API_KEY = process.env.NEWS_API_KEY || "7bac1df556254ed78b5547177b2bdeef";
 const BASE_URL = "https://newsapi.org/v2";
 
 // Get top headlines
@@ -59,7 +59,7 @@ app.get("/api/news/:category", async (req, res) => {
 app.get("/api/search", async (req, res) => {
   try {
     const { q, pageSize = 10 } = req.query;
-
+    console.log("qr",JSON.stringify(q),"\t\r\n");
     if (!q) {
       return res.status(400).json({ error: "Search query is required" });
     }

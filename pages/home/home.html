@@ -1,18 +1,48 @@
-<div ng-controller="HomeController">
-  <div ng-repeat="article in news">
-    <a href="{{article.url}}" target="_blank">
-      <div class="card">
+<div ng-controller="HomeController" class="container mt-4">
+  <!-- Search Results Heading -->
+  <h3 class="text-center mb-4">
+    {{query ? "Search Results for: " + query : "Top Headlines"}}
+  </h3>
+
+  <!-- News Articles -->
+  <div class="row">
+    <div
+      class="col-md-4 mb-4"
+      ng-repeat="article in news"
+      ng-if="news.length"
+    >
+      <div class="card h-100">
+        <!-- News Image -->
         <img
-          src="{{article.urlToImage}}"
+          ng-src="{{article.urlToImage}}"
           alt="News Image"
           class="card-img-top"
+          onerror="this.onerror=null; this.src='default-placeholder.png';"
         />
         <div class="card-body">
+          <!-- Title -->
           <h5 class="card-title">{{article.title}}</h5>
+          <!-- Description -->
           <p class="card-text">{{article.description}}</p>
-          <span>{{article.publishedAt | date:'medium'}}</span>
+        </div>
+        <div class="card-footer text-muted">
+          <!-- Published Date -->
+          <small>{{article.publishedAt | date:'medium'}}</small>
+          <!-- Source Link -->
+          <a
+            href="{{article.url}}"
+            target="_blank"
+            class="btn btn-link btn-sm float-end"
+            >Read More</a
+          >
         </div>
       </div>
-    </a>
+    </div>
+  </div>
+
+  <!-- No Results Found -->
+  <div ng-if="!news.length" class="text-center">
+    <img src="no-results.png" alt="No Results" class="img-fluid mb-3" />
+    <p>No articles found for your search. Please try another query.</p>
   </div>
 </div>

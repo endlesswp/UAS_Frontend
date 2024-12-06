@@ -1,42 +1,103 @@
+<!DOCTYPE html>
 <html ng-app="FancyNews">
-  <head>
-    <title>FashionAds</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body>
-      <script src="app.js"></script>
-      <script src="services/AppService.js"></script>
-      <script src="controller/home.js"></script>
-      <div class="flex justify-center border-1 pb-1">
-        <h2 class="font-bold text-2xl">FancyNews</h2>
+<head>
+  <title>FashionAds</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // AngularJS app initialization
+    var app = angular.module("FancyNews", ["ngRoute"]);
+
+    // Controller untuk search
+    app.controller("SearchController", function ($scope, $http) {
+      $scope.articles = []; // Array untuk menyimpan artikel
+      $scope.searchQuery = ""; // Query pencarian
+
+      $scope.performSearch = function () {
+        const query = $scope.searchQuery;
+        if (query) {
+          $http
+            .get("http://localhost:3000/api/search", { params: { q: query } })
+            .then(
+              function (response) {
+                if (response.data.status === "ok") {
+                  // Simpan data articles ke dalam $scope.articles
+                  $scope.articles = response.data.articles;
+                } else {
+                  $scope.articles = [];
+                }
+              },
+              function (error) {
+                console.error("Error:", error);
+                $scope.articles = []; // Kosongkan jika ada error
+              }
+            );
+        }
+      };
+    });
+  </script>
+</head>
+<body ng-controller="SearchController">
+  <div class="flex justify-center border-1 pb-1">
+    <h2 class="font-bold text-2xl">FancyNews</h2>
+  </div>
+  <div class="mb-[-10px] pt-1">
+    <!-- Ubah form agar di-handle AngularJS -->
+    <form
+      id="searchform"
+      class="flex justify-center"
+      ng-submit="performSearch(); $event.preventDefault()"
+    >
+      <input
+        class=""
+        type="text"
+        name="q"
+        placeholder="Search..."
+        ng-model="searchQuery"
+      />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  <div class="flex justify-center items-center gap-10 border-1 p-1">
+    <a href="#/home">Home</a>
+    <a href="#/entertainment">Entertainment</a>
+    <a href="#/health">Health</a>
+    <a href="#/sports">Sports</a>
+    <a href="#/science">Science</a>
+    <a href="#/technology">Technology</a>
+  </div>
+  <div class="flex max-w[1200px] mt-4 ml-4 mr-4">
+    <div id="content">
+      <!-- Gunakan ng-repeat untuk menampilkan artikel -->
+      <div ng-repeat="article in articles" class="mb-4 p-4 border rounded">
+        <h3 class="font-bold text-xl">
+          {{ article.title }}
+        </h3>
+        <p class="text-gray-600">
+          {{ article.description || "No description available." }}
+        </p>
+        <a
+          ng-href="{{ article.url }}"
+          target="_blank"
+          class="text-blue-500 hover:underline"
+        >
+          Read more
+        </a>
       </div>
-      <div class="mb-[-10px] pt-1">
-        <form class="flex justify-center" action="/search" method="GET">
-          <input class="" type="text" name="query" placeholder="Search..." />
-          <button type="submit">Search</button>
-        </form>
-      </div>
-      <div class="flex justify-center items-center gap-10 border-1 p-1">
-        <a href="#/home">Home</a>
-        <a href="#/entertainment">Entertainment</a>
-        <a href="#/health">Health</a>
-        <a href="#/sports">Sports</a>
-        <a href="#/science">Science</a>
-        <a href="#/technology">Technology</a>
-      </div>
-      <div class="flex max-w[1200px] mt-4 ml-4 mr-4">
-        <div ng-view></div>
-        <!--page render-->
-      </div>
-    </body>
-  </html>
+      <!-- Tampilkan pesan jika tidak ada artikel -->
+      <p ng-if="articles.length === 0" class="text-center text-gray-500">
+        No articles found. Please try a different query.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
