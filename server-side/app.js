@@ -12,6 +12,13 @@ app.use(express.json());
 const API_KEY = process.env.NEWS_API_KEY || "0819647073f2418182dda6578db8c60b";
 const BASE_URL = "https://newsapi.org/v2";
 
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../index.html"));
+});
+
 // Get top headlines
 app.get("/api/top-headlines", async (req, res) => {
   try {

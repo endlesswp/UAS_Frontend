@@ -5,11 +5,11 @@ var app = angular.module("FancyNews", ["ngRoute"]).config([
     $locationProvider.hashPrefix("");
     $routeProvider
       .when("/", {
-        templateUrl: "pages/home/home.html",
+        templateUrl: "/pages/home/home.html",
         controller: "HomeController",
       })
       .when("/home", {
-        templateUrl: "pages/home/home.html",
+        templateUrl: "/pages/home/home.html",
         controller: "HomeController",
         params: { category: "general" },
       })
